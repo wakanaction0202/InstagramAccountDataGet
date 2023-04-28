@@ -26,7 +26,7 @@ function handle() {
 
 function getInstagramIdBySheet(sheet) {
   // A列の値を取得
-  var rangeValues = sheet.getRange("A2:A").getValues();
+  var rangeValues = sheet.getRange("A1:A").getValues();
   // ２次配列を一次配列に変換
   var mapValues = rangeValues.map(function(row) {
     return row[0];
