@@ -9,7 +9,7 @@ function handle() {
   // [instagramID, フォロワー数, 現在の日時] 形式で配列を作る
   let mappingSheet = Array();
   instagramIds.forEach(function(item, index) {
-    mappingSheet.push([item, getInstagramFollwers(item), getCurrentDateAsString()]);
+    mappingSheet.push([item, getInstagramAccountDatas(item), getCurrentDateAsString()]);
   }, this);
 
   // A2からCまでの範囲を取得し、mappingSheet配列をそのままSheetへ反映する
@@ -38,12 +38,12 @@ function getInstagramIdBySheet(sheet) {
   return mapValues;
 }
 
-function getInstagramFollwers(instagramId) {
+function getInstagramAccountDatas(instagramId) {
   let scriptProperties = PropertiesService.getScriptProperties();
   let env = scriptProperties.getProperties();
 
-  let url = 'https://graph.facebook.com/v4.0/' + env.INSTAGRAM_BUSSINESS_ACCOUNT + '?fields=business_discovery.username('+instagramId+'){followers_count}&access_token=' + env.INSTAGRAM_API_NO_EXPIRED_TOKEN;
-  
+  let url = 'https://graph.facebook.com/v4.0/' + env.INSTAGRAM_BUSSINESS_ACCOUNT + '?fields=business_discovery.username('+instagramId+'){biography}&access_token=' + env.INSTAGRAM_API_NO_EXPIRED_TOKEN;
+
   try {
     let options = {
       muteHttpExceptions: true
@@ -51,7 +51,7 @@ function getInstagramFollwers(instagramId) {
     let response = UrlFetchApp.fetch(encodeURI(url), options);
     let parseResponse = JSON.parse(response.getContentText());
     Logger.log('status ==> ' + response.getResponseCode());
-    return parseInt(parseResponse.business_discovery.followers_count);
+    return parseResponse.business_discovery.biography;
   } catch(e) {
     return '手動で確認してください。https://www.instagram.com/'+instagramId+'/';
   }
@@ -61,4 +61,5 @@ function getCurrentDateAsString() {
   var now = new Date();
   return Utilities.formatDate(now, "JST", "yyyy/MM/dd HH:mm:ss");
 }
+
 
