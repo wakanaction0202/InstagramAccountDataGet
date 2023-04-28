@@ -1,4 +1,4 @@
-# InstagramFollowerCountGet
+# InstagramFollowerAccountDataGet
 
 ## アクセストークン
 ### 前提
