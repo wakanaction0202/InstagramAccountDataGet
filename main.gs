@@ -5,7 +5,7 @@ function handle() {
   let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet2");
   let [instagramIds, insertStartIndex] = getInstagramIdsAndStartIndex(sheet);
 
-  if (instagramIds.length === 0 || startIndex === 0) {
+  if (instagramIds.length === 0 || insertStartIndex === 0) {
     Logger.log('Inputが正しくないか、処理するデータがありません。');
     return 'Inputが正しくないか、処理するデータがありません。';
   }
