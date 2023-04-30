@@ -7,12 +7,12 @@ function handle() {
 
   if (instagramIds.length === 0 || insertStartIndex === 0) {
     Logger.log('Inputが正しくないか、処理するデータがありません。');
-    return 'Inputが正しくないか、処理するデータがありません。';
+    return ;
   }
 
   // instagramの情報を取得し、[instagramID, 取得情報, 現在の日時] 形式で配列を作る
   let mappingSheet = Array();
-  instagramIds.forEach(function(item, index) {
+  instagramIds.forEach(function(item) {
     mappingSheet.push([item, getInstagramAccountData(item), getCurrentDateAsString()]);
   }, this);
 
@@ -32,7 +32,7 @@ function getInstagramIdsAndStartIndex(sheet) {
 
   let ids = Array();
   let startIndex = null;
-  let endIndex = null;
+
   // 空のセルの値だけ取得する
   for (var row = 0; row < values.length; row++) {
     // B列の情報が空 = 前回の続きのIDから取得する
@@ -66,11 +66,12 @@ function getInstagramAccountData(instagramId) {
     Logger.log('status ==> ' + response.getResponseCode());
     return parseResponse.business_discovery.biography;
   } catch(e) {
+    Logger.log(e.toString());
     return '手動で確認してください。https://www.instagram.com/'+instagramId+'/';
   }
 }
 
 function getCurrentDateAsString() {
-  var now = new Date();
+  let now = new Date();
   return Utilities.formatDate(now, "JST", "yyyy/MM/dd HH:mm:ss");
 }
